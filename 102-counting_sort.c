@@ -8,13 +8,13 @@
  */
 void counting_sort(int *array, size_t size)
 {
-	size_t i = 0, j = 0, k = 0, temp = 0, max = 0;
+	size_t i = 0, j = 0, k = 0, max = 0;
 	int *freq = NULL, *cpy_freq = NULL;
 
 	if (array == NULL || size < 2)
 		return;
 	for (i = 0; i < size; ++i)
-		if (array[i] > max)
+		if ((size_t)array[i] > max)
 			max = array[i];
 	freq = malloc(sizeof(int) * (max + 1));
 	if (freq == NULL)
@@ -43,7 +43,7 @@ void counting_sort(int *array, size_t size)
 	print_array(freq, max + 1);
 	for (i = 0; i < max + 1; ++i)
 		if (cpy_freq[i] > 0)
-			for (j = 0; j < cpy_freq[i]; ++j)
+			for (j = 0; j < (size_t)cpy_freq[i]; ++j)
 				array[k++] = i;
 	free(freq);
 	free(cpy_freq);
