@@ -10,7 +10,7 @@ void swap(int *first, int *second)
 {
 	int temp;
 
-	if (first == nullptr || second == nullptr)
+	if (first == NULL || second == NULL)
 	{
 		return;
 	}
@@ -35,7 +35,7 @@ void selection_sort(int *array, size_t size)
 	size_t i = 0, j = 0;
 	size_t min_index = 0;
 
-	if (array == nullptr || size < 2)
+	if (array == NULL || size < 2)
 	{
 		return;
 	}
