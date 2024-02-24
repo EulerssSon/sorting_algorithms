@@ -42,7 +42,7 @@ int compare(const card_t *card1, const card_t *card2)
 {
 	int val1 = 0, val2 = 0;
 
-	if (strcmp(card1->value, card2->value) == 0)
+	if (card1->kind != card2->kind)
 		return (card1->kind - card2->kind);
 
 	if (card1->value[0] >= '2' && card1->value[0] <= '9')
@@ -60,7 +60,7 @@ int compare(const card_t *card1, const card_t *card2)
 
 	if (card2->value[0] >= '2' && card2->value[0] <= '9')
 		val2 = card2->value[0] - '0';
-	else if ((card2->value)[0] == 1)
+	else if ((card2->value)[0] == '1')
 		val2 = 10;
 	else if ((card2->value)[0] == 'J')
 		val2 = 11;
