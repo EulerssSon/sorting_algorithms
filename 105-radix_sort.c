@@ -1,57 +1,137 @@
 #include "sort.h"
+
 /**
- * bitonic_merge - merges two subarrays in a bitonic sequence
- * @array: array of integers
- * @low: low index
- * @size: size of the array
- * @dir: direction
+ * free_setNULL - frees a pointer and sets it to NULL
+ * @ptr: pointer to free
  * Return: void
  */
-void bitonic_merge(int *array, int low, int size, int dir)
+void free_setNULL(int **ptr)
 {
-	int k = 0;
-
-	if (size > 1)
+	if (ptr == NULL)
 	{
-		k = size / 2;
-		for (int i = low; i < low + k; ++i)
-		{
-			if (dir == (array[i] > array[i + k]))
-			{
-
-				int temp = array[i];
-				array[i] = array[i + k];
-				array[i + k] = temp;
-
-			}
-
-		}
-		bitonic_merge(array, low, k, dir);
-		bitonic_merge(array, low + k, k, dir);
+		return;
 	}
+	free(*ptr);
+	*ptr = NULL;
+}
+
+/**
+ * find_max - finds the maximum value in an array
+ * @arr: array to search
+ * @size: size of the array
+ * Return: maximum value in the array
+ */
+int find_max(int *arr, int size)
+{
+	int max = arr[0];
+	int i = 1;
+
+	for (; i < size; ++i)
+	{
+		if (arr[i] > max)
+		{
+			max = arr[i];
+		}
+	}
+	return (max);
+
+}
+
+/**
+ * count_digits - counts the number of digits in a number
+ * @num: number to count digits
+ * Return: number of digits
+ */
+int count_digits(int num)
+{
+	int count = 0;
+
+	if (num == 0)
+	{
+		return (1);
+	}
+
+	while (num > 0)
+	{
+		num /= 10;
+		count++;
+	}
+
+	return (count);
+}
+
+
+/**
+ * radix_sort_impl - sorts an array of integers
+ * uisng radix sort counting on count sort
+ * @arr: array to sort
+ * @size: size of the array
+ * @exp: exponent
+ * Return: void
+ */
+void radix_sort_impl(int *arr, int size, int exp)
+{
+	int *freq = NULL;
+	int *prefix = NULL;
+	int *output = NULL;
+	int i = 0;
+
+	freq = malloc(sizeof(int) * 10);
+	if (freq == NULL)
+		return;
+	output = malloc(sizeof(int) * size);
+	if (output == NULL)
+	{
+		free(freq);
+		return;
+	}
+
+	for (i = 0; i < 10; ++i)
+		freq[i] = 0;
+	for (i = 0; i < size; ++i)
+		++freq[(arr[i] / exp) % 10];
+	for (i = 1; i < 10; ++i)
+		freq[i] = freq[i] + freq[i - 1];
+
+	prefix = freq;
+
+	for (i = size - 1; i >= 0; --i)
+	{
+		output[prefix[arr[i] / exp % 10] - 1] = arr[i];
+		--prefix[arr[i] / exp % 10];
+	}
+	for (i = 0; i < size; ++i)
+	{
+		arr[i] = output[i];
+	}
+
+	free_setNULL(&prefix);
+	free_setNULL(&output);
 }
 /**
- * bitonic_sort_helper - helper function for bitonic sort
- * @array: array of integers
- * @low: low index
+ * radix_sort - sorts an array helper func
+ * that uses count sort algo
+ * @arr: array to sort
  * @size: size of the array
- * @dir: direction
- * Return: void
  */
-void bitonic_sort_helper(int *array, int low, int size, int dir)
+void radix_sort(int *arr, size_t size)
 {
-	int mid = 0;
+	int max = 0;
+	int digits = 0;
+	int i = 0;
+	int j = 1;
 
-	if (size > 1)
+	if (arr == NULL || size < 2)
 	{
-		printf("Merging [%d/%d] (%s):\n", size, (int)size, dir ? "UP" : "DOWN");
-		print_array(array + low, size);
-		mid = size / 2;
-		bitonic_sort_helper(array, low, mid, 1);
-		bitonic_sort_helper(array, low + mid, mid, 0);
-		bitonic_merge(array, low, size, dir);
+		return;
+	}
+	max = find_max(arr, size);
+	digits = count_digits(max);
 
-		printf("Result [%d/%d] (%s):\n", size, (int)size, dir ? "UP" : "DOWN");
-		print_array(array + low, size);
+	for (i = 0; i < digits; ++i)
+	{
+		radix_sort_impl(arr, (int)size, j);
+		print_array(arr, size);
+		j *= 10;
 	}
 }
