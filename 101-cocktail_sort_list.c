@@ -65,11 +65,12 @@ void enterchange(listint_t **new_start, listint_t ***list,
  */
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *start = *list, *end = NULL, *new_start = NULL, *new_end = NULL;
+	listint_t *start = NULL, *end = NULL, *new_start = NULL, *new_end = NULL;
 	char swapped = 1;
 
 	if (!list || !*list || !(*list)->next)
 		return;
+	start = *list;
 
 	for (end = *list; end->next; end = end->next)
 		;

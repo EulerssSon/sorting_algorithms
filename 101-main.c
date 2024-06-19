@@ -38,6 +38,7 @@ listint_t *create_listint(const int *array, size_t size)
  *
  * Return: Always 0
  */
+/**
 int main(void)
 {
     listint_t *list;
@@ -49,8 +50,14 @@ int main(void)
         return (1);
     print_list(list);
     printf("\n");
-    cocktail_sort_list(&list);
+    cocktail_sort_list(NULL);
     printf("\n");
     print_list(list);
     return (0);
+}
+*/
+int main(void)
+{
+	cocktail_sort_list(NULL);
+	return 0;
 }
