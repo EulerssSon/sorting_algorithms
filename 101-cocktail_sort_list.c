@@ -1,11 +1,10 @@
 #include "sort.h"
 
 /**
- * swapTwoNodes - a funciton to swap a node and its next
+ * swapTwoNodess - a funciton to swap a node and its next
  * @first: the first node to be replaced with its next
  */
-
-void swapTwoNodes(listint_t *first)
+void swapTwoNodess(listint_t *first)
 {
 	listint_t *prev = NULL;
 	listint_t *next = first->next;
@@ -33,6 +32,7 @@ void swapTwoNodes(listint_t *first)
 	if (next_next)
 		next_next->prev = first;
 }
+
 /**
  * enterchange - a helper function to the sort
  * @new_end: the node to change with its next
@@ -42,7 +42,7 @@ void enterchange(listint_t *new_end, listint_t **list)
 {
 	if (!new_end->prev)
 		*list = new_end->next;
-	swapTwoNodes(new_end);
+	swapTwoNodess(new_end);
 	print_list(*list);
 }
 
@@ -52,7 +52,7 @@ void enterchange(listint_t *new_end, listint_t **list)
  */
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *start = *list, *end = NULL, new_start = NULL, new_end = NULL;
+	listint_t *start = *list, *end = NULL, *new_start = NULL, *new_end = NULL;
 	char swapped = 1;
 
 	if (!list || !*list || !(*list)->next)
@@ -66,7 +66,7 @@ void cocktail_sort_list(listint_t **list)
 			{
 				if (!new_start->prev)
 					*list = new_start->next;
-				swapTwoNodes(new_start);
+				swapTwoNodess(new_start);
 				new_start = new_start->prev;
 				swapped = 1;
 				print_list(*list);
